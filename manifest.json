@@ -1,0 +1,10 @@
+{
+  "name": "rembo-plugin",
+  "id": "1153117250354505840",
+  "api": "1.0.0",
+  "editorType": [
+    "figma"
+  ],
+  "main": "dist/code.js",
+  "ui": "dist/index.html"
+}
