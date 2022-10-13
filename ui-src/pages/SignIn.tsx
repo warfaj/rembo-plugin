@@ -13,7 +13,6 @@ const SignIn = () => {
     setId(event.target.value)
   }
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-    alert('This id is: ' + id);
     setUser(id);
     event.preventDefault();
   }

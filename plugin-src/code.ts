@@ -274,7 +274,6 @@ const turnIntoSvg = (node: LineNode | EllipseNode | PolygonNode | RectangleNode 
     case "VECTOR":
       const svg : SVG = await node.exportAsync({ format: 'SVG' })
             .then((bytes: Uint8Array) => {
-              console.log(node.name);
               let svg : SVG = {name: node.name, bytes: bytes, id: node.id};
               return svg;
             });
@@ -301,6 +300,7 @@ const turnIntoSvg = (node: LineNode | EllipseNode | PolygonNode | RectangleNode 
       return text;
   }
   console.log("Unsupported Node: ",node.type);
+  return {};
  }
 
 
@@ -321,12 +321,12 @@ const captureFrame = async (selection: ReadonlyArray<BaseNode>) => {
     return
   }
 
-
+  figma.ui.postMessage({type: "LOADING"});
   const frame = node as FrameNode;
   const bytes = await frame.exportAsync();
   const layer = await traverse(node);
   const data = { frame: {}, image: bytes };
-  figma.ui.postMessage(data);
+  figma.ui.postMessage({type: "DATA", data});
 }
 
 
