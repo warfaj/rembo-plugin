@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: Vela Sans;
+    font-weight: 200;
+    src: url(./fonts/VelaSans/VelaSans-ExtraLight.woff) format("woff");
+  }
+
+  @font-face {
+    font-family: Vela Sans;
+    font-weight: 300;
+    src: url(./fonts/VelaSans/VelaSans-Light.woff) format("woff");
+  }
+
+  @font-face {
+    font-family: VelaSans;
+    font-weight: 400;
+    src: url(./fonts/VelaSans/VelaSans-Regular.woff) format("woff");
+  }
+
+  @font-face {
+    font-family: VelaSans;
+    font-weight: 500;
+    src: url(./fonts/VelaSans/VelaSans-Medium.woff) format("woff");
+  }
+
+  @font-face {
+    font-family: VelaSans;
+    font-weight: 600;
+    src: url(./fonts/VelaSans/VelaSans-SemiBold.woff) format("woff");
+  }
+
+  @font-face {
+    font-family: VelaSans;
+    font-weight: 700;
+    src: url(./fonts/VelaSans/VelaSans-Bold.woff) format("woff");
+  }
+
+  @font-face {
+    font-family: VelaSans;
+    font-weight: 800;
+    src: url(./fonts/VelaSans/VelaSans-ExtraBold.woff) format("woff");
+  }
+}
+
+html {
+  font-size: 16px;
+}

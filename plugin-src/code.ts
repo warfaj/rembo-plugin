@@ -1,4 +1,4 @@
-figma.showUI(__html__, { height: 100 });
+figma.showUI(__html__, { height: 404, width:554, title: "Rembo" });
 
 type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
 
@@ -50,6 +50,7 @@ type Layout = Partial<{
 }>
 
 type Layer = Partial<{
+  type: String;
   children: Layer[];
   bounding: Bounding;
   fills: Fill[];
@@ -154,6 +155,7 @@ const fillLayer = <T extends Layer>(node: SceneNode, layer : T) => {
   let corners : Corners = {};
   let border : Border = {};
   let layout : Layout = {};
+  layer.type = node.type;
   switch(node.type) {
     case "COMPONENT":
       const component = node as ComponentNode;
