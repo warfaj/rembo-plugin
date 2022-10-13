@@ -23,7 +23,7 @@ const SignIn = () => {
 
   return (
     <Background>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="w-full h-full justify-center flex flex-col">
         <div className="flex flex-col gap-y-4 items-center">
           <div className='font-sans font-bold text-gray-900 text-xl flex flex-row items-center justify-center w-full'>Connect to your Rembo account!</div>
 

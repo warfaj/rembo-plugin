@@ -1,4 +1,4 @@
-figma.showUI(__html__, { height: 404, width:554, title: "Rembo" });
+figma.showUI(__html__, { height: 400, width:550, title: "Rembo" });
 
 type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
 
@@ -107,7 +107,7 @@ const setFill = (node: ComponentNode | ComponentSetNode |  FrameNode | InstanceN
         return node.fills[0] as Fill;
     }
   }
-  throw new Error("No fill");
+  return {};
 }
 
 const setCorners = (node: ComponentNode | FrameNode | InstanceNode | RectangleNode ) => {
@@ -274,7 +274,7 @@ const turnIntoSvg = (node: LineNode | EllipseNode | PolygonNode | RectangleNode 
     case "VECTOR":
       const svg : SVG = await node.exportAsync({ format: 'SVG' })
             .then((bytes: Uint8Array) => {
-              console.log([...bytes]);
+              console.log(node.name);
               let svg : SVG = {name: node.name, bytes: bytes, id: node.id};
               return svg;
             });
@@ -300,16 +300,40 @@ const turnIntoSvg = (node: LineNode | EllipseNode | PolygonNode | RectangleNode 
       fillLayer(node, text);
       return text;
   }
-  console.log(node.type);
-  throw new Error("Unsupported node type");
+  console.log("Unsupported Node: ",node.type);
  }
+
+
+const captureFrame = async (selection: ReadonlyArray<BaseNode>) => {
+  
+  if(selection.length === 0) {
+    figma.notify("Please select a frame");
+    return
+  } else if(selection.length > 1) {
+    figma.notify("Please select one frame");
+    return
+  } 
+
+
+  const node = selection[0];
+  if(node.type !== "FRAME") {
+    figma.notify("Please select a frame");
+    return
+  }
+
+
+  const frame = node as FrameNode;
+  const bytes = await frame.exportAsync();
+  const layer = await traverse(node);
+  const data = { frame: {}, image: bytes };
+  figma.ui.postMessage(data);
+}
+
 
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === "push-selection") {
     const selection = figma.currentPage.selection;
-    console.log(selection);
-    const select = await traverse(selection[0]);
-    figma.ui.postMessage(JSON.stringify(select));
+    await captureFrame(selection);
   }
 };

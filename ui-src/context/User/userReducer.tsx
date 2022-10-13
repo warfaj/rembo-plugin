@@ -1,6 +1,7 @@
 import {
   SET_USER,
-  ADD_USER_LAYER,
+  ADD_FRAME,
+  CLEAR_FRAME,
   Action,
 } from '../types';
 
@@ -11,10 +12,15 @@ export default (state : any, action: Action) => {
         ...state,
         user: action.payload,
       };
-    case ADD_USER_LAYER:
+    case ADD_FRAME:
       return {
         ...state,
-        user: action.payload,
+        selectedFrame: action.payload,
+      };
+    case CLEAR_FRAME:
+      return {
+        ...state,
+        selectedFrame: null,
       };
     default:
       return state;

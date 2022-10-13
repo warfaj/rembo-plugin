@@ -1,5 +1,6 @@
 export const SET_USER = 'SET_USER';
-export const ADD_USER_LAYER = 'ADD_USER_LAYER';
+export const ADD_FRAME = 'ADD_FRAME';
+export const CLEAR_FRAME = "CLEAR_FRAME";
 
 export interface Action {
   type: string;
@@ -11,14 +12,19 @@ export interface User {
   first_name: string;
 }
 
+
 export interface UserContextData {
   user: User | null;
   selectedFrame: any;
   setUser: (id: string) => void;
+  addFrame: (layer: any) => void;
+  clearFrame: () => void;
 }
 
 export const INITIAL_STATE : UserContextData = {
   user: null,
   selectedFrame: null,
   setUser: () => {},
+  addFrame: () => {},
+  clearFrame: () => {},
 }

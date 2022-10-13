@@ -4,8 +4,9 @@ import UserContext from './UserContext';
 import userReducer from './UserReducer';
 import {
   SET_USER,
-  ADD_USER_LAYER,
   INITIAL_STATE,
+  ADD_FRAME,
+  CLEAR_FRAME,
 } from '../types';
 
 const getUser = async (id : string) => {
@@ -29,12 +30,28 @@ const UserState = (props : any) => {
     });
   }
 
+  const addFrame = (layer : any) => {
+    dispatch({
+      type: ADD_FRAME,
+      payload: layer,
+    });
+  }
+
+  const clearFrame = () => {
+    dispatch({
+      type: CLEAR_FRAME,
+      payload: null,
+    });
+  }
+
 
   return <UserContext.Provider
     value={{
       user: state.user,
       selectedFrame: state.selectedFrame,
       setUser,
+      addFrame,
+      clearFrame,
     }} 
   > 
   {props.children}

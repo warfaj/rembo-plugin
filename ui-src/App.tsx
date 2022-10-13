@@ -19,20 +19,6 @@ const onPush = () => {
 function App() {
 
 
-  onmessage = (event) => {
-    if (event.data.pluginMessage) {
-      console.log("got this from the plugin code", JSON.parse(event.data.pluginMessage))
-      sendData(event.data.pluginMessage)
-    }
-  };
-
-  const sendData = (data: String) => {
-    axios.post('http://localhost:3000/api/design', { data }).then((res) => {
-      console.log(res)
-    });
-  }
-
-
   return (
     <React.StrictMode>
       <UserState>
@@ -46,10 +32,25 @@ function App() {
 
 function Content() {
   const userContext = useContext<UserContextData>(UserContext);
-  
-  const { user, selectedFrame } = userContext;
 
-  return (user ? (selectedFrame ? <SavedFrame frame={selectedFrame} /> : <SaveFrame frame={selectedFrame} onClick={onPush} />) : <SignIn/>)
+  const { user, selectedFrame, addFrame, clearFrame } = userContext;
+
+  onmessage = (event) => {
+    if (event.data.pluginMessage) {
+      console.log("got this from the plugin code", event.data.pluginMessage);
+      addFrame(event.data.pluginMessage);
+    }
+  };
+
+  const sendData = (data: String) => {
+    axios.post('http://localhost:3000/api/design', { data }).then((res) => {
+      console.log(res)
+    });
+  }
+
+  
+
+  return (user ? (selectedFrame ? <SavedFrame frame={selectedFrame} onClick={clearFrame} /> : <SaveFrame frame={selectedFrame} onClick={onPush} />) : <SignIn/>)
 }
 
 export default App;
