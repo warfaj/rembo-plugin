@@ -15,6 +15,7 @@ module.exports = {
 				empty: "#F8FDFF",
 				outline: "#0D3A4E",
 				primary: "#2FB8E3",
+				default: "#ebebeb",
 			},
 		},
 	},

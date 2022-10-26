@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import { ReactComponent as Plus } from "./plus.svg"
-import { ReactComponent as Thumbnail} from "./sample.svg"
-
 
 
 const Outlet = (props : any) => {
@@ -14,7 +12,7 @@ const Outlet = (props : any) => {
 
   useEffect(() => {
     if (frame) {
-      const url = URL.createObjectURL(new Blob([frame.image]))
+      const url = URL.createObjectURL(new Blob([frame.imageData]))
       setImage(url)
     } 
   }, [frame])

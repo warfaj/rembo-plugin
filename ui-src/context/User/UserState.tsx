@@ -1,7 +1,7 @@
 import React, { ReactNode, useReducer } from 'react';
 import axios from 'axios';
-import UserContext from './UserContext';
-import userReducer from './UserReducer';
+import UserContext from './userContext';
+import userReducer from './userReducer';
 import {
   SET_USER,
   INITIAL_STATE,
@@ -9,13 +9,8 @@ import {
   CLEAR_FRAME,
 } from '../types';
 
-const getUser = async (id : string) => {
-  //const res = await axios.get(`http://localhost:3001/users/${id}`);
-  // do some error checking here
-
-  const res = { data: { id: '123', first_name: 'John' } }
-  return res.data;
-
+const checkRemboId = async (id : string) => {
+  return await fetch(`http://localhost:3000/api/frame/${id}`).then((res) => {return res.status === 200});
 }
 
 const UserState = (props : any) => {
@@ -23,17 +18,27 @@ const UserState = (props : any) => {
   const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
 
   const setUser = async (id : string) => {
-    const user = await getUser(id);
+    const validRemboId = await checkRemboId(id);
+    console.log(validRemboId);
+    if (validRemboId) {
+      parent.postMessage(
+        { pluginMessage: { type: "set-rembo-id", rembo_id: id } },
+        "*"
+      );
+    
     dispatch({
       type: SET_USER,
-      payload: user,
+      payload: id,
     });
+    }
+    return validRemboId;
   }
 
-  const addFrame = (layer : any) => {
+
+  const addFrame = async (data : any) => {
     dispatch({
       type: ADD_FRAME,
-      payload: layer,
+      payload: data,
     });
   }
 

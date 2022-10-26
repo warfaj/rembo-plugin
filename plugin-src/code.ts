@@ -324,8 +324,19 @@ const captureFrame = async (selection: ReadonlyArray<BaseNode>) => {
   figma.ui.postMessage({type: "LOADING"});
   const frame = node as FrameNode;
   const bytes = await frame.exportAsync();
-  const layer = await traverse(node);
-  const data = { frame: {}, image: bytes };
+  let layer : any = {}
+  try{
+    layer = await traverse(node);
+  } catch(e) {
+    console.error(e);
+  }
+  const data = {
+		frameData: layer,
+		imageData: bytes,
+		height: frame.height,
+		width: frame.width,
+		name: frame.name,
+	};
   figma.ui.postMessage({type: "DATA", data});
 }
 
@@ -335,5 +346,14 @@ figma.ui.onmessage = async (msg) => {
   if (msg.type === "push-selection") {
     const selection = figma.currentPage.selection;
     await captureFrame(selection);
+  } else if (msg.type === "pull-rembo-id"){
+    const rembo_id = await figma.clientStorage.getAsync("rembo_id");
+    if(rembo_id) {
+      figma.ui.postMessage({type: "REMBO-ID", data: rembo_id});
+    }
+  } else if (msg.type === "set-rembo-id"){
+    await figma.clientStorage.setAsync("rembo_id", msg.rembo_id);
   }
+
+
 };

@@ -10,7 +10,7 @@ export default (state : any, action: Action) => {
     case SET_USER:
       return {
         ...state,
-        user: action.payload,
+        user: {id: action.payload},
       };
     case ADD_FRAME:
       return {

@@ -9,14 +9,13 @@ export interface Action {
 
 export interface User {
   id: string;
-  first_name: string;
 }
 
 
 export interface UserContextData {
   user: User | null;
   selectedFrame: any;
-  setUser: (id: string) => void;
+  setUser: (id: string) => Promise<boolean>;
   addFrame: (layer: any) => void;
   clearFrame: () => void;
 }
@@ -24,7 +23,7 @@ export interface UserContextData {
 export const INITIAL_STATE : UserContextData = {
   user: null,
   selectedFrame: null,
-  setUser: () => {},
+  setUser: async () => false,
   addFrame: () => {},
   clearFrame: () => {},
 }
